@@ -813,7 +813,7 @@ outSList (Sent b) = i1 (b)
 outSList (Cons (a, b)) = i2 (a, b)
 
 anaSList :: (c -> Either a (b, c)) -> c -> SList b a
-anaSList = undefined
+anaSList = either id Cons
 
 cataSList :: (Either b (a, d) -> d) -> SList a b -> d
 cataSList = undefined
