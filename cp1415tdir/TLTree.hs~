@@ -1,0 +1,17 @@
+module TLTree where
+
+import Cp
+import Data.Monoid
+
+-- (1) Datatype definition -----------------------------------------------------
+
+type Tri = (Point, Side)
+type Side = Int
+type Point = (Int, Int)
+
+data TLTree = Tri Tri | Nodo TLTree TLTree TLTree
+
+
+
+
+

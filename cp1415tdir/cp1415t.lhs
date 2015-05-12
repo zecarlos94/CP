@@ -800,7 +800,9 @@ balance = cataLTree (inLTree)	--(| inLTree |)
 \subsection*{Secção \ref{sec:BTree}}
 \begin{code}
 qsplit :: Integral a => (a, a) -> Either () (a, ((a, a), (a, a)))
-qsplit = undefined
+qsplit (x, y) = if (x > y) || (x==0 && y==0) then i1 ()
+                else i2 (med, ((x, med-1), (med+1, y)))
+   where med = div (x+y) 2
 \end{code}
 
 \subsection*{Secção \ref{sec:SList}}
