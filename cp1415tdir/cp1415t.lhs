@@ -790,9 +790,13 @@ outras funções auxiliares que sejam necessárias.
 \subsection*{Secção \ref{sec:LTree}}
 \begin{code}
 depth :: LTree a -> Integer
-depth (Leaf a) = 0
-depth (Fork (e, d)) = max (depth e) (depth d)	--(| [0, max] |)
+--depth (Leaf a) = 0
+--depth (Fork (e, d)) = max (depth e) (depth d)	--(| [0, max] |)
+-- feito no teste_PARTEA (nao sei se o max funca, no teste usei max' )
+depth = cataLTree (either zero (max.(succ><succ)))
 
+-- feito parcialmente no teste_parteA
+-- este balance n faz nada , (|in|) = id
 balance :: LTree a -> LTree a
 balance = cataLTree (inLTree)	--(| inLTree |)			
 \end{code}
