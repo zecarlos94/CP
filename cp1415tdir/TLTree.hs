@@ -17,18 +17,18 @@ data TLTree = Tri Tri | Nodo TLTree TLTree TLTree deriving (Show, Eq)
 
 --Each Leaf contains the bottom left vertex coordinates and the side of the peccaries in the same triangle.
 
---type (Tri Tri) = a b
-type (Nodo TLTree TLTree TLTree) = ttt
+type (Tri Tri) = t
+type (TLTree TLTree TLTree) = ttt
 
-inTLTree = either (Tri Tri) Nodo
+inTLTree = either t Nodo
 
-outTLTree :: TLTree a -> Either (Tri Tri) ttt
-outTLTree (Tri Tri)      = i1(Tri Tri) 
+outTLTree :: TLTree a -> Either t ttt
+outTLTree (Tri Tri)      = i1(t) 
 outTLTree (Nodo TLTree TLTree TLTree) = i2(ttt)
 
 -- (2) Ana + cata + hylo -------------------------------------------------------
 
-recTLTree f = undefined
+recTLTree f = 
 
 cataTLTree a = a . (recTLTree (cataTLTree a)) . outTLTree
 
@@ -36,7 +36,7 @@ anaTLTree f = inTLTree . (recTLTree (anaTLTree f) ) . f
 
 hyloTLTree a c = cataTLTree a . anaTLTree c
 
-baseTLTree g f = undefined
+baseTLTree g f = 
 
 -- recTLTree f = baseTLTree id f
 
@@ -49,16 +49,16 @@ instance Functor TLTree
 
 -- (4.0) Inversion (mirror) ----------------------------------------------------
 
-invTLTree = undefined
+invTLTree = 
 
 
 -- (4.1) Counting --------------------------------------------------------------
 
-countTTLTree = undefined
+countTTLTree =
 
 -- (4.2) Serialization ---------------------------------------------------------
 
-tips = undefined
+tips = 
 
 
 -- (4.3) sierpinski triangles--------------------------------------------------------------
@@ -76,7 +76,7 @@ geraSierp ((x , y), s) n = let s0 = s ÷ 2
 
 -- (4.3.1) Redefinition of geraSierp (Auxiliary) as ana--------------------------------------------------------------
 
-geraSierp g = undefined
+geraSierp g =
 
 -- (4.4) Showing TLTree as a list (apresentaSierp) ----------------------------------------------------
 {-
@@ -87,12 +87,12 @@ apresentaSierp (Nodo a b c) = (apresentaSierp a) ++ (apresentaSierp b) ++ (apres
 
 -- (4.4) Redefinition of apresentaSierp as cata--------------------------------------------------------------
 
-apresentaSierp g = undefined
+apresentaSierp g =
 
 
 -- (4.3) Redefinition of sierpinski as hylo--------------------------------------------------------------  
 
-sierpinski g = undefined
+sierpinski g =
 
 --ts = geraSierp tri 5 where tri = ((0, 0), 256) for testings
 

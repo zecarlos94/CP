@@ -790,45 +790,54 @@ outras funções auxiliares que sejam necessárias.
 \subsection*{Secção \ref{sec:LTree}}
 \begin{code}
 depth :: LTree a -> Integer
---depth (Leaf a) = 0
---depth (Fork (e, d)) = max (depth e) (depth d)	--(| [0, max] |)
--- feito no teste_PARTEA (nao sei se o max funca, no teste usei max' )
-depth = cataLTree (either zero (max.(succ><succ)))
+depth = cataLTree (either zero (succ . max'))
+   where max' (a,b) = if (a > b) then a else b
 
--- feito parcialmente no teste_parteA
--- este balance n faz nada , (|in|) = id
 balance :: LTree a -> LTree a
-balance = cataLTree (inLTree)	--(| inLTree |)			
+balance = generateT . decomposeT
+
+generateT :: [a] -> LTree a
+generateT [a] = Leaf a
+generateT (h:t) = insert h (generateT t)
+   where insert x (Leaf a) = Fork (Leaf x, Leaf a)
+         insert x (Fork (a,b)) | (depth a > depth b) = insert x b
+                               | otherwise = insert x a	
+
+decomposeT = cataLTree (either singl joint)
+   where joint (a,b) = a ++ b	
 \end{code}
 
 \subsection*{Secção \ref{sec:BTree}}
 \begin{code}
 qsplit :: Integral a => (a, a) -> Either () (a, ((a, a), (a, a)))
-qsplit (x, y) = if (x > y) || (x==0 && y==0) then i1 ()
-                else i2 (med, ((x, med-1), (med+1, y)))
+qsplit (x, y) = if (x > y) || (x==0 && y==0) then i1 () else i2 (med, ((x, med-1), (med+1, y)))		
    where med = div (x+y) 2
 \end{code}
 
 \subsection*{Secção \ref{sec:SList}}
 \begin{code}
 inSList :: Either a (a1, SList a1 a) -> SList a1 a
-inSList = either Sent Cons	--[Sent, Cons] 
+inSList = either Sent Cons	 
 
 outSList :: SList b a -> Either a (b, SList b a)
 outSList (Sent b) = i1 (b)
 outSList (Cons (a, b)) = i2 (a, b)
 
 anaSList :: (c -> Either a (b, c)) -> c -> SList b a
-anaSList = undefined
+anaSList f = inSList . (recSList (anaSList f)) . f
 
 cataSList :: (Either b (a, d) -> d) -> SList a b -> d
-cataSList = undefined
+cataSList a = a . (recSList (cataSList a)) . outSList
 
 hyloSList :: (Either b (d, c) -> c) -> (a -> Either b (d, a)) -> a -> c
-hyloSList = undefined
+hyloSList a c = cataSList a . anaSList c
+
+recSList f = id -|- (id >< f)
 
 mgen :: Ord a => ([a], [a]) -> Either [a] (a, ([a], [a]))
-mgen = undefined
+mgen (a, []) = i1 (a)
+mgen ([], b) = i1 (b)
+mgen (a, b) = i2 (head a, (tail a, b))
 \end{code}
 
 \subsection*{Secção \ref{sec:sierp}}
