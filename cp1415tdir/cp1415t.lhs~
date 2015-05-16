@@ -115,6 +115,7 @@ import Nat
 import Exp
 import BTree
 import LTree
+import TLTree
 import X3d
 import Control.Parallel.Strategies
 import Probability hiding (cond)
