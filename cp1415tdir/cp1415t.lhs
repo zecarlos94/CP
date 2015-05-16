@@ -844,7 +844,7 @@ mgen (a, b) = i2 (head a, (tail a, b))
 \subsection*{Secção \ref{sec:sierp}}
 
 \begin{code}
-inTLTree = undefined 
+inTLTree = undefined
 
 outTLTree = undefined
 

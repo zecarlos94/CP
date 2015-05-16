@@ -17,15 +17,12 @@ data TLTree a = Tri Tri | Nodo (TLTree a, TLTree a, TLTree a) deriving (Show, Eq
 
 --Each Leaf contains the bottom left vertex coordinates and the side of the peccaries in the same triangle.
 
-
 inTLTree :: Either (Tri Tri) (TLTree a, TLTree a, TLTree a) ->  TLTree a
 inTLTree = either (const Tri Tri) Nodo
-
 
 outTLTree :: TLTree a -> Either (Tri Tri) (TLTree a, TLTree a, TLTree a)
 outTLTree (Tri Tri) = i1 ()
 outTLTree (Nodo (a,b,c)) = i2 (a,b,c)
-
 
 -- (2) Ana + cata + hylo -------------------------------------------------------
 
@@ -60,7 +57,6 @@ depthTLTree = cataTLTree (either zero (max3.(succ><succ><succ)))
 invTLTree :: TLTree b -> TLTree b
 invTLTree = cataTLTree (inTLTree . (id -|- swap3))
 
-
 {-- Recall the pointwise version:
 invTLTree (Tri Tri) = Tri Tri
 invTLTree (Nodo (a,b,c)) = Nodo ((invTLTree c),(invTLTree b),(invTLTree a))
@@ -74,7 +70,8 @@ countTLTree = cataTLTree (either one succ.add3)
 -- (4.2) Serialization ---------------------------------------------------------
 
 tipsTLTree :: TLTree b -> [b]
-tipsTLTree = undefined
+tipsTLTree = cataTLTree (either Tri concat3)
+   where concat3 (a,b,c) = a ++ b ++ c
 
 -- (4.3) sierpinski triangles--------------------------------------------------------------
 
@@ -82,6 +79,7 @@ sierpinski :: Tri -> Int -> [Tri]
 sierpinski t = apresentaSierp . (geraSierp t)
 
 -- (4.3.1) geraSierp (Auxiliary) --------------------------------------------------------------
+
 {-
 geraSierp :: Tri -> Int -> TLTree
 geraSierp t 0 = Tri t
@@ -91,7 +89,8 @@ geraSierp ((x , y), s) n = let s0 = s ÷ 2
 
 -- (4.3.1) Redefinition of geraSierp (Auxiliary) as ana--------------------------------------------------------------
 
-geraSierp g = undefined
+geraSierp g = anaTLTree ((g -|- tripleDec) . outTLTree)
+   where tripleDec a = (a - 1, a - 1, a - 1)
 
 -- (4.4) Showing TLTree as a list (apresentaSierp) ----------------------------------------------------
 {-
@@ -103,7 +102,7 @@ apresentaSierp (Nodo (a,b,c)) = (apresentaSierp a) ++ (apresentaSierp b) ++ (apr
 -- (4.4) Redefinition of apresentaSierp as cata--------------------------------------------------------------
 
 apresentaSierp g = cataTLTree (either singl concat3)
-        where concat3 (a,b,c) = a ++ b ++ c
+   where concat3 (a,b,c) = a ++ b ++ c
 
 --ts = geraSierp tri 5 where tri = ((0, 0), 256) for testings
 

@@ -115,7 +115,7 @@ import Nat
 import Exp
 import BTree
 import LTree
-import TLTree
+--import TLTree
 import X3d
 import Control.Parallel.Strategies
 import Probability hiding (cond)
@@ -844,9 +844,10 @@ mgen (a, b) = i2 (head a, (tail a, b))
 \subsection*{Secção \ref{sec:sierp}}
 
 \begin{code}
-inTLTree = undefined 
+inTLTree = either (const Tri Tri) Nodo
 
-outTLTree = undefined
+outTLTree (Tri Tri) = i1 ()
+outTLTree (Nodo (a,b,c)) = i2 (a,b,c)
 
 baseTLTree = undefined
 

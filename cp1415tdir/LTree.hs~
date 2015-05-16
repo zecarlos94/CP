@@ -53,7 +53,7 @@ countLTree = cataLTree (either one add)
 -- (4.2) Serialization ---------------------------------------------------------
 
 tips = cataLTree (either singl conc)
-        where conc (l,r) = l ++ r
+        where conc(l,r)= l ++ r
 
 -- (4.3) Double factorial ------------------------------------------------------
 
