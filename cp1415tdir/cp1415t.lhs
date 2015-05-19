@@ -353,7 +353,7 @@ e faça os testes seguintes:
 \begin{code}
 test06a = depthTLTree ts == 6
 test06b = countTLTree ts == 243
-test06c = countTLTree ts == length (tipsTLTree ts)
+test06c = fromIntegral (countTLTree ts) == length (tipsTLTree ts)
 test06d = countTLTree ts == countTLTree (invTLTree ts)
 \end{code}
 \end{teste}
@@ -791,21 +791,19 @@ outras funções auxiliares que sejam necessárias.
 \subsection*{Secção \ref{sec:LTree}}
 \begin{code}
 depth :: LTree a -> Integer
-depth = cataLTree (either zero (succ . max'))
-   where max' (a,b) = if (a > b) then a else b
+depth = cataLTree (either zero (succ . uncurry max))
+
 
 balance :: LTree a -> LTree a
-balance = generateT . decomposeT
+balance = generateT . tips
+ 	where	generateT :: [a] -> LTree a
+		generateT [a] = Leaf a
+		generateT (h:t) = insert h (generateT t)
+		insert x (Leaf a) = Fork (Leaf x, Leaf a)
+		insert x (Fork (a,b)) | (depth a > depth b) = insert x b
+ 	                              | otherwise = insert x a	
 
-generateT :: [a] -> LTree a
-generateT [a] = Leaf a
-generateT (h:t) = insert h (generateT t)
-   where insert x (Leaf a) = Fork (Leaf x, Leaf a)
-         insert x (Fork (a,b)) | (depth a > depth b) = insert x b
-                               | otherwise = insert x a	
-
-decomposeT = cataLTree (either singl joint)
-   where joint (a,b) = a ++ b	
+  
 \end{code}
 
 \subsection*{Secção \ref{sec:BTree}}
@@ -844,31 +842,46 @@ mgen (a, b) = i2 (head a, (tail a, b))
 \subsection*{Secção \ref{sec:sierp}}
 
 \begin{code}
-inTLTree = undefined
 
-outTLTree = undefined
 
-baseTLTree = undefined
 
-recTLTree = undefined
+inTLTree = either L N
 
-cataTLTree = undefined
+outTLTree :: TLTree a -> Either a (TLTree a,(TLTree a,TLTree a))
+outTLTree (L a) = i1 a
+outTLTree (N (t1,(t2,t3)) ) = i2 (t1,(t2,t3)) 
 
-anaTLTree f = undefined
+baseTLTree g f = g -|- (f >< (f >< f))
 
-hyloTLTree a c = undefined
+recTLTree f = id -|- (f >< (f >< f))
 
-tipsTLTree = undefined
+cataTLTree a = a . (recTLTree (cataTLTree a)) . outTLTree
 
-invTLTree = undefined
+anaTLTree f = inTLTree . (recTLTree (anaTLTree f)) . f
 
-depthTLTree = undefined
+hyloTLTree a c = cataTLTree a . anaTLTree c
+
+tipsTLTree = cataTLTree ( either singl ( (uncurry (++) ) . (id >< (uncurry (++)) ) ) ) 
+		
+
+invTLTree = cataTLTree ( either L (N . swap' ))
+	where swap' (a,(b,c)) = (c,(b,a))
+
+depthTLTree = cataTLTree ( either one (succ . (uncurry max) . (id >< (uncurry max) )) ) 
+
 
 geraSierp :: Tri -> Int -> TLTree Tri
-geraSierp = undefined
+geraSierp tri n' = anaTLTree g(tri,n')
+	where g (t,0) = i1 t
+	      g (((x,y),s),n) = 
+		let s' = div s 2
+		in i2 ( (((x,y),s),n-1) , ( (((x+s',y),y) ,n-1) , (((x,y+s'),s'),n-1)) )			  
 
-countTLTree :: TLTree b -> Int
-countTLTree = undefined
+apresentaSierp :: TLTree Tri -> [Tri]
+apresentaSierp = tipsTLTree
+
+countTLTree :: TLTree b -> Integer
+countTLTree = cataTLTree ( either one ( add . (id >< add)) ) 
 
 draw = render html where
        html = rep dados
