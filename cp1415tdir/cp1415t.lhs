@@ -376,7 +376,7 @@ drawTriangle :: ((Int,Int),Int) -> String
 \end{spec}
 \item Finaliza-se o ficheiro com as tags de início e final:
 \begin{spec}
-finalize :: String -> String
+finalize :: String -> String 
 \end{spec}
 \end{itemize}
 \begin{enumerate}
@@ -869,13 +869,12 @@ invTLTree = cataTLTree ( either L (N . swap' ))
 
 depthTLTree = cataTLTree ( either one (succ . (uncurry max) . (id >< (uncurry max) )) ) 
 
-
 geraSierp :: Tri -> Int -> TLTree Tri
-geraSierp tri n' = anaTLTree g(tri,n')
+geraSierp tri n' = anaTLTree g(tri,n') 
 	where g (t,0) = i1 t
 	      g (((x,y),s),n) = 
 		let s' = div s 2
-		in i2 ( (((x,y),s),n-1) , ( (((x+s',y),y) ,n-1) , (((x,y+s'),s'),n-1)) )			  
+		in i2 ( (((x,y),s),n-1) , ( (((x+s',y),y) ,n-1) , (((x,y+s'),s'),n-1)) )
 
 apresentaSierp :: TLTree Tri -> [Tri]
 apresentaSierp = tipsTLTree
@@ -883,10 +882,15 @@ apresentaSierp = tipsTLTree
 countTLTree :: TLTree b -> Integer
 countTLTree = cataTLTree ( either one ( add . (id >< add)) ) 
 
-draw = render html where
-       html = rep dados
+-- meh n deu em nada isto, para n falar q da um erro de tipos estranho com o geraSierp
+rep (tri,n) = undefined -- finalize . concat . (map drawTriangle) . apresentaSierp . (geraSierp tri n) 
 
-rep = undefined
+-- render :: String -> IO GHC.IO.Exception.ExitCode
+-- rep :: (((Integer, Integer), Integer), Integer) -> String
+
+draw = render html where
+      html = rep dados
+
 \end{code}
 \pdfout{%
 \begin{code}
