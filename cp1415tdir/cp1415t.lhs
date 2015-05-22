@@ -851,42 +851,28 @@ hyloTLTree a c = cataTLTree a . anaTLTree c
 
 tipsTLTree = cataTLTree ( either singl ( (uncurry (++) ) . (id >< (uncurry (++)) ) ) ) 
 		
-
 invTLTree = cataTLTree ( either L (N . swap' ))
 	where swap' (a,(b,c)) = (c,(b,a))
 
 depthTLTree = cataTLTree ( either one (succ . (uncurry max) . (id >< (uncurry max) )) ) 
 
 geraSierp :: Tri -> Int -> TLTree Tri
-geraSierp tri n' = anaTLTree g(tri,n') 
-	where g (t,0) = i1 t
-	      g (((x,y),s),n) = 
-		let s' = div s 2
-		in i2 ( (((x,y),s),n-1) , ( (((x+s',y),y) ,n-1) , (((x,y+s'),s'),n-1)) )
+geraSierp tri n = anaTLTree g (tri, n) 
+	where g (a, 0) = i1 a
+	      g (((x, y), z), n) = let z' = div z 2 
+                                   in i2 ((((x, y), z'), n-1) , ((((x+z', y), z') , n-1) , (((x, y+z'), z'), n-1)))
 
 apresentaSierp :: TLTree Tri -> [Tri]
 apresentaSierp = tipsTLTree
 
 countTLTree :: TLTree b -> Integer
-countTLTree = cataTLTree ( either one ( add . (id >< add)) ) 
-
--- Este rep gera ficheiro mas n fica direito
---rep (tri,n) = (finalize . concat . (map (drawTriangle)) . apresentaSierp . geraSierp tri) n
-
---Gera ficheiro mas tb n da, achei estranho n precisar de concat
---rep (tri,n) = (finalize . (cataList (either nil (drawTriangle.fst))) . apresentaSierp . geraSierp tri) n
-
-
-
--- render :: String -> IO GHC.IO.Exception.ExitCode
--- rep :: (((Integer, Integer), Integer), Integer) -> String
+countTLTree = cataTLTree (either one (add . (id >< add))) 
 
 draw = render html where
       html = rep dados
 
-rep :: (((Int, Int), Int), Int) -> String
-rep (a, 0) = (drawTriangle a)
-rep (a, b) = finalize (drawTriangle a) ++ rep (a, b-1)
+rep = finalize . concat . (map drawTriangle) . apresentaSierp . (uncurryTLTree geraSierp) . split fst snd
+   where uncurryTLTree f (((x, y), z), n) = f ((x, y), z) n
 
 \end{code}
 \pdfout{%
