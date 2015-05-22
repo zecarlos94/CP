@@ -389,7 +389,7 @@ dados = (((0,0), 32),4)
 isto é, centrado na origem, com lado 32 e 4 níveis de recursividade.
 No anexo \ref{sec:resolucao} sugere-se o recurso à função,
 \begin{code}
-render html = do { writeFile "_.html" html ; system "open _.html" }
+render html = do { writeFile "sierpinski.html" html ; system "open sierpinski.html" }
 \end{code}
 (adapte-a, se necessário) para visualizar o triângulo gerado num ``browser".
 Espera-se que o resultado final seja como o 
@@ -871,13 +871,17 @@ countTLTree :: TLTree b -> Integer
 countTLTree = cataTLTree ( either one ( add . (id >< add)) ) 
 
 -- meh n deu em nada isto, para n falar q da um erro de tipos estranho com o geraSierp
-rep (tri,n) = undefined -- finalize . concat . (map drawTriangle) . apresentaSierp . (geraSierp tri n) 
+--rep (tri,n) = undefined -- finalize . concat . (map drawTriangle) . apresentaSierp . (geraSierp tri n) 
 
 -- render :: String -> IO GHC.IO.Exception.ExitCode
 -- rep :: (((Integer, Integer), Integer), Integer) -> String
 
 draw = render html where
       html = rep dados
+
+rep :: (((Int, Int), Int), Int) -> String
+rep (a, 0) = finalize (drawTriangle a)
+rep (a, b) = finalize (drawTriangle a) ++ rep (a, b-1)
 
 \end{code}
 \pdfout{%
