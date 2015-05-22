@@ -870,8 +870,13 @@ apresentaSierp = tipsTLTree
 countTLTree :: TLTree b -> Integer
 countTLTree = cataTLTree ( either one ( add . (id >< add)) ) 
 
--- meh n deu em nada isto, para n falar q da um erro de tipos estranho com o geraSierp
---rep (tri,n) = undefined -- finalize . concat . (map drawTriangle) . apresentaSierp . (geraSierp tri n) 
+-- Este rep gera ficheiro mas n fica direito
+--rep (tri,n) = (finalize . concat . (map (drawTriangle)) . apresentaSierp . geraSierp tri) n
+
+--Gera ficheiro mas tb n da, achei estranho n precisar de concat
+--rep (tri,n) = (finalize . (cataList (either nil (drawTriangle.fst))) . apresentaSierp . geraSierp tri) n
+
+
 
 -- render :: String -> IO GHC.IO.Exception.ExitCode
 -- rep :: (((Integer, Integer), Integer), Integer) -> String
@@ -880,7 +885,7 @@ draw = render html where
       html = rep dados
 
 rep :: (((Int, Int), Int), Int) -> String
-rep (a, 0) = finalize (drawTriangle a)
+rep (a, 0) = (drawTriangle a)
 rep (a, b) = finalize (drawTriangle a) ++ rep (a, b-1)
 
 \end{code}
