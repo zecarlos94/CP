@@ -833,6 +833,9 @@ mgen (a, b) = i2 (head a, (tail a, b))
 \subsection*{Secção \ref{sec:sierp}}
 
 \begin{code}
+
+
+
 inTLTree = either L N
 
 outTLTree :: TLTree a -> Either a (TLTree a,(TLTree a,TLTree a))
