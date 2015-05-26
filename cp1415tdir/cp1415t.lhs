@@ -884,8 +884,21 @@ data TLTree a = L a | N (TLTree a,(TLTree a,TLTree a)) deriving (Eq,Show)
 \subsection*{Secção \ref{sec:monads}}
 Defina
 \begin{code}
-gene = undefined
+gene = (either stop perder)
 \end{code}
+
+\begin{code}
+perder (a,b) = D [((a:b),0.95),(b,0.05)]
+\end{code}
+
+\begin{code}
+stop = const(D [([],0.10),(["stop"],0.90)])
+\end{code}
+
+\begin{code}
+transmitir = pcataList (either stop perder) (words "Vamos atacar hoje")
+\end{code}
+
 e responda ao problema do enunciado aqui.
 
 \subsection*{Secção \ref{sec:parBTreeMap}}
