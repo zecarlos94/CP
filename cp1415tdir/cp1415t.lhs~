@@ -849,18 +849,18 @@ anaTLTree f = inTLTree . (recTLTree (anaTLTree f)) . f
 
 hyloTLTree a c = cataTLTree a . anaTLTree c
 
-tipsTLTree = cataTLTree ( either singl ( (uncurry (++) ) . (id >< (uncurry (++)) ) ) ) 
+tipsTLTree = cataTLTree (either singl ((uncurry (++)) . (id >< (uncurry (++))))) 
 		
-invTLTree = cataTLTree ( either L (N . swap' ))
-	where swap' (a,(b,c)) = (c,(b,a))
+invTLTree = cataTLTree (either L (N . swap'))
+   where swap' (a, (b, c)) = (c, (b, a))
 
-depthTLTree = cataTLTree ( either one (succ . (uncurry max) . (id >< (uncurry max) )) ) 
+depthTLTree = cataTLTree (either one (succ . (uncurry max) . (id >< (uncurry max)))) 
 
 geraSierp :: Tri -> Int -> TLTree Tri
 geraSierp tri n = anaTLTree g (tri, n) 
-	where g (a, 0) = i1 a
-	      g (((x, y), z), n) = let z' = div z 2 
-                                   in i2 ((((x, y), z'), n-1) , ((((x+z', y), z') , n-1) , (((x, y+z'), z'), n-1)))
+   where g (a, 0) = i1 a
+	 g (((x, y), z), n) = let z' = div z 2 
+                              in i2 ((((x, y), z'), n-1) , ((((x+z', y), z') , n-1) , (((x, y+z'), z'), n-1)))
 
 apresentaSierp :: TLTree Tri -> [Tri]
 apresentaSierp = tipsTLTree
@@ -877,7 +877,9 @@ rep = finalize . concat . (map drawTriangle) . apresentaSierp . (uncurryTLTree g
 \end{code}
 \pdfout{%
 \begin{code}
+
 data TLTree a = L a | N (TLTree a,(TLTree a,TLTree a)) deriving (Eq,Show)
+
 \end{code}
 }%
 
@@ -887,7 +889,7 @@ Defina
 
 gene = either stop perder
 
-perder (a, b) = D [((a:b), 0.95),(b, 0.05)]
+perder (a, b) = D [((a:b), 0.95), (b, 0.05)]
 
 stop = const (D [([], 0.10), (["stop"], 0.90)])
 
@@ -899,7 +901,8 @@ e responda ao problema do enunciado aqui.
 Defina
 \begin{code}
 
-parBTreeMap = undefined
+parBTreeMap f Empty = return Empty
+parBTreeMap f (Node (x, (y, z))) = do {x' <- rpar (f x); y' <- parBTreeMap f y; z' <- parBTreeMap f z; return (Node (x', (y', z')))}
 
 \end{code}
 e apresente aqui os resultados das suas experiências com essa função.
