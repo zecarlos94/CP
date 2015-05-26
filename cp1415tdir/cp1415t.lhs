@@ -884,19 +884,13 @@ data TLTree a = L a | N (TLTree a,(TLTree a,TLTree a)) deriving (Eq,Show)
 \subsection*{Secção \ref{sec:monads}}
 Defina
 \begin{code}
-gene = (either stop perder)
-\end{code}
 
-\begin{code}
-perder (a,b) = D [((a:b),0.95),(b,0.05)]
-\end{code}
+gene = either stop perder
 
-\begin{code}
-stop = const(D [([],0.10),(["stop"],0.90)])
-\end{code}
+perder (a, b) = D [((a:b), 0.95),(b, 0.05)]
 
-\begin{code}
-transmitir = pcataList (either stop perder) (words "Vamos atacar hoje")
+stop = const (D [([], 0.10), (["stop"], 0.90)])
+
 \end{code}
 
 e responda ao problema do enunciado aqui.
@@ -904,7 +898,9 @@ e responda ao problema do enunciado aqui.
 \subsection*{Secção \ref{sec:parBTreeMap}}
 Defina
 \begin{code}
+
 parBTreeMap = undefined
+
 \end{code}
 e apresente aqui os resultados das suas experiências com essa função.
 
