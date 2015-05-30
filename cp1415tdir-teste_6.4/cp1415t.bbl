@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+
+\bibitem{EK06}
+M.~Erwig and S.~Kollmansberger.
+\newblock Functional pearls: Probabilistic functional programming in {Haskell}.
+\newblock {\em J. Funct. Program.}, 16:21--34, January 2006.
+
+\bibitem{Kn92}
+D.E. Knuth.
+\newblock {\em Literate Programming}.
+\newblock CSLI Lecture Notes Number 27. Stanford University Center for the
+  Study of Language and Information, Stanford, CA, USA, 1992.
+
+\bibitem{Ma13}
+S.~Marlow.
+\newblock {\em Parallel and Concurrent Programming in Haskell}.
+\newblock O'Reilly, 2013.
+
+\end{thebibliography}
