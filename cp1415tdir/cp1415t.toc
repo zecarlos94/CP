@@ -1,0 +1,20 @@
+\select@language {portuguese}
+\contentsline {section}{\numberline {1}Pre\IeC {\^a}mbulo}{2}{section.1}
+\contentsline {section}{\numberline {2}Documenta\IeC {\c c}\IeC {\~a}o}{2}{section.2}
+\contentsline {section}{\numberline {3}Como realizar o trabalho}{3}{section.3}
+\contentsline {section}{\numberline {4}Parte A}{3}{section.4}
+\contentsline {subsection}{\numberline {4.1}Biblioteca \href {http://wiki.di.uminho.pt/twiki/pub/Education/CP1314/MaterialPedagogico/LTree.hs}{LTree}}{3}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Biblioteca \href {http://wiki.di.uminho.pt/twiki/pub/Education/CP1314/MaterialPedagogico/BTree.hs}{BTree}}{4}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Biblioteca para listas com sentinelas}{4}{subsection.4.3}
+\contentsline {section}{\numberline {5}Parte B}{5}{section.5}
+\contentsline {subsection}{\numberline {5.1}Cria\IeC {\c c}\IeC {\~a}o de Tri\IeC {\^a}ngulos de Sierpinski}{5}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Trabalho a realizar}{6}{subsection.5.2}
+\contentsline {section}{\numberline {6}Parte C}{7}{section.6}
+\contentsline {subsection}{\numberline {6.1}M\IeC {\'o}nades}{7}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Trabalho a realizar}{9}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Programa\IeC {\c c}\IeC {\~a}o funcional paralela}{10}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Trabalho a realizar}{11}{subsection.6.4}
+\contentsline {section}{\numberline {A}Programa principal}{12}{appendix.A}
+\contentsline {section}{\numberline {B}Bibliotecas e c\IeC {\'o}digo auxiliar}{12}{appendix.B}
+\contentsline {subsection}{\numberline {B.1}``Easy X3DOM access''}{12}{subsection.B.1}
+\contentsline {section}{\numberline {C}Solu\IeC {\c c}\IeC {\~o}es propostas}{13}{appendix.C}

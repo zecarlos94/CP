@@ -692,6 +692,7 @@ main = getArgs >>= cond (not . null) exemp_or_exer errInvArgs
         execExer = cond isPar execExerPar execExerSeq
         execExempSeq = const (putStrLn . show . (map fib) $ [20..30])      
         execExempPar = const (putStrLn . show . runEval . (parmap fib) $ [20..30])
+
 \end{code}
 
 \section{Bibliotecas e código auxiliar}
@@ -702,10 +703,10 @@ errInvArgs = const $ putStrLn msgInvArgs
            msgInvArgs = "Invalid arguments"           
 
 execExerPar :: [String] -> IO ()
-execExerPar  = undefined
+execExerPar = const (putStrLn . show . runEval . (parBTreeMap fib) $ t1)      
 
 execExerSeq :: [String] -> IO ()
-execExerSeq = undefined
+execExerSeq = const (putStrLn . show . (fmap fib) $ t1)  
 
 isPar :: [String] -> Bool
 isPar = cond (((==) "par") . head . tail) (const True) (const False)
@@ -784,11 +785,21 @@ color c = appearance (ctag "material" [("diffuseColor",prime c)])
 
 %----------------- Soluções propostas -----------------------------------------%
 \section{Soluções propostas}\label{sec:resolucao}
-Os alunos devem colocar neste anexo as suas soluções aos exercícios
-propostos, de acordo com o ``layout'' que se fornece. Podem ser adicionadas
-outras funções auxiliares que sejam necessárias.
+
+Grupo 61:
+
+	Tiago João Lopes Carvalhais (A70443)
+
+	José Carlos da Silva Brandão Gonçalves (A71223)
+
+	Gustavo da Costa Gomes (A72223)
 
 \subsection*{Secção \ref{sec:LTree}}
+
+A função |depth| recebe uma LTree e devolve um inteiro com o fator de balanceamento da árvore. Neste caso, usamos um catamorfismo de um |either zero (succ . uncurry max)|, em que |zero| é o fator de balanceamento da árvore que contém só uma folha e |succ| . |uncurry max| caso a árvore contenha mais que uma folha e, nessa situação, o balanceamento é calculado através do sucessor do maior fator de balanceamento entre as árvores da esquerda e da direita.
+
+A função |balance| contém uma função |tips|, que coloca todos os elementos de uma LTree numa lista com todos os elementos da mesma. Essa lista vai, depois, ser organizada pelo anamorfismo da função |lsplit|, que vai tratar de organizar a mesma, para depois devolver uma nova árvore, desta vez, balanceada, consoante a disposição dos elementos na lista.
+
 \begin{code}
 depth :: LTree a -> Integer
 depth = cataLTree (either zero (succ . uncurry max))
@@ -798,6 +809,9 @@ balance = anaLTree lsplit . tips
 \end{code}
 
 \subsection*{Secção \ref{sec:BTree}}
+
+A função |qsplit| corresponde a um gene e funciona como função auxiliar da |abpe|. Recebe como argumento um par de inteiros, que corresponde ao intervalo em que a árvore vai ser definida, e pega no elemento médio do mesmo (através da função |med|) e coloca-o no topo a BTree, e de seguida, gera dois intervalos, que correspondem aos intervalos de valores da árvore, que se situam antes e depois do valor intermédio.
+
 \begin{code}
 qsplit :: Integral a => (a, a) -> Either () (a, ((a, a), (a, a)))
 qsplit (x, y) = if (x > y) || (x==0 && y==0) then i1 () else i2 (med, ((x, med-1), (med+1, y)))		
@@ -805,6 +819,9 @@ qsplit (x, y) = if (x > y) || (x==0 && y==0) then i1 () else i2 (med, ((x, med-1
 \end{code}
 
 \subsection*{Secção \ref{sec:SList}}
+
+Nesta secção estão presentes várias funções para a biblioteca SList, tal como estão definidas para as restantes bibliotecas. Contém também uma função |mgen|, que é o gene de |merge'|. Recebe um par de listas e parte-a, separando a cabeça da primeira lista do par com a sua cauda e com a segunda lista recebida como parâmetro. 
+
 \begin{code}
 inSList :: Either a (a1, SList a1 a) -> SList a1 a
 inSList = either Sent Cons	 
@@ -832,12 +849,18 @@ mgen (a, b) = i2 (head a, (tail a, b))
 
 \subsection*{Secção \ref{sec:sierp}}
 
+Nesta secção e, tal como na anterior, estão presentes funções para uma biblioteca, neste caso a TLTree. A função |geraSierp| gera um triângulo de Sierpinski através de um anamorfismo, cujo gene, a função |geneSierp| divide a estrutura do tipo Tri em três partes, para assim formar o triângulo, diminuindo o nível de recursividade em uma unidade.
+
+A função |apresentaSierp| recebe uma estrutura do tipo TLTree e trasforma-a numa lista de estruturas do tipo Tri. Faz exatamente o mesmo que a função tipsTLTree, pelo que a sua presença é redundante.
+
+A função |rep| transforma por fim a estrutura TLTree num triângulo de Sierpinski, que pode posteriormente ser visto numa página web, no ficheiro "sierpinski.html". A função começa por gerar a estrutura do triângulo, chamando a função |geraSierp| que, posteriormente, deverá sofrer um |uncurryTLTree| para ser adaptado e poder ser recebido como input da |apresentaSierp|, que vai transformar a TLTree numa lista de Tri's. Por fim, cada elemento da lista vai ser passado para uma String própria para ficheiros html pela função |drawTriangle| e a função |finalize| faz o acabamento final, para que seja possível o ficheiro html ser aberto numa página web e o triângulo possa ser visualizado.
+
 \begin{code}
 inTLTree = either L N
 
-outTLTree :: TLTree a -> Either a (TLTree a,(TLTree a,TLTree a))
+outTLTree :: TLTree a -> Either a (TLTree a, (TLTree a, TLTree a))
 outTLTree (L a) = i1 a
-outTLTree (N (t1,(t2,t3)) ) = i2 (t1,(t2,t3)) 
+outTLTree (N (t1, (t2, t3))) = i2 (t1, (t2, t3)) 
 
 baseTLTree g f = g -|- (f >< (f >< f))
 
@@ -857,10 +880,10 @@ invTLTree = cataTLTree (either L (N . swap'))
 depthTLTree = cataTLTree (either one (succ . (uncurry max) . (id >< (uncurry max)))) 
 
 geraSierp :: Tri -> Int -> TLTree Tri
-geraSierp tri n = anaTLTree g (tri, n) 
-   where g (a, 0) = i1 a
-	 g (((x, y), z), n) = let z' = div z 2 
-                              in i2 ((((x, y), z'), n-1) , ((((x+z', y), z') , n-1) , (((x, y+z'), z'), n-1)))
+geraSierp tri n = anaTLTree geneSierp (tri, n) 
+   where geneSierp (a, 0) = i1 a
+	 geneSierp (((x, y), z), n) = let z' = div z 2 
+                                      in i2 ((((x, y), z'), n-1) , ((((x+z', y), z') , n-1) , (((x, y+z'), z'), n-1)))
 
 apresentaSierp :: TLTree Tri -> [Tri]
 apresentaSierp = tipsTLTree
@@ -884,7 +907,11 @@ data TLTree a = L a | N (TLTree a,(TLTree a,TLTree a)) deriving (Eq,Show)
 }%
 
 \subsection*{Secção \ref{sec:monads}}
-Defina
+
+A função |gene| devolve um |either stop perder|, em que retorna a probabilidade de a última palavra, ou seja, a palavra "stop", se perder e também a probabilidade de qualquer outra palavra da lista ter o mesmo destino. Funciona como função auxiliar da |transmitir|.
+
+A função |perder| calcula a probabilidade qualquer palavra da lista se perder, exceto a palavra "stop", cuja probabilidade de desaparecimento vai ser calculada pela função |stop|.
+
 \begin{code}
 
 gene = either stop perder
@@ -895,16 +922,24 @@ stop = const (D [([], 0.10), (["stop"], 0.90)])
 
 \end{code}
 
-A probabilidade de a palavra "atacar" se perder, ou seja, de o resultado da transmissão ser ["Vamos", "hoje", "stop"], é de 4.1%.
-A probabilidade de chegarem todas as palavras, mas faltar o "stop" no fim, é de 8.6%.
-A probabilidade de a transmissão ser perfeita é de 77.2%.
+A probabilidade de a palavra "atacar" se perder é de |4.1%|.
+
+A probabilidade de chegarem todas as palavras, mas faltar o "stop" no fim, é de |8.6%|.
+
+A probabilidade de a transmissão ser perfeita é de |77.2%|.
 
 \subsection*{Secção \ref{sec:parBTreeMap}}
-Defina
+
+A função |parBTreeMap| aplica a função |rpar| a todos os elementos de uma BTree.
+
 \begin{code}
 
 parBTreeMap f Empty = return Empty
-parBTreeMap f (Node (x, (y, z))) = do {x' <- rpar (f x); y' <- parBTreeMap f y; z' <- parBTreeMap f z; return (Node (x', (y', z')))}
+parBTreeMap f (Node (x, (y, z))) = do 
+                x' <- rpar (f x)
+                y' <- parBTreeMap f y
+                z' <- parBTreeMap f z
+                return (Node (x', (y', z')))
 
 \end{code}
 
