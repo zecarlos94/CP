@@ -895,7 +895,9 @@ stop = const (D [([], 0.10), (["stop"], 0.90)])
 
 \end{code}
 
-e responda ao problema do enunciado aqui.
+A probabilidade de a palavra "atacar" se perder, ou seja, de o resultado da transmissão ser ["Vamos", "hoje", "stop"], é de 4.1%.
+A probabilidade de chegarem todas as palavras, mas faltar o "stop" no fim, é de 8.6%.
+A probabilidade de a transmissão ser perfeita é de 77.2%.
 
 \subsection*{Secção \ref{sec:parBTreeMap}}
 Defina
@@ -905,6 +907,7 @@ parBTreeMap f Empty = return Empty
 parBTreeMap f (Node (x, (y, z))) = do {x' <- rpar (f x); y' <- parBTreeMap f y; z' <- parBTreeMap f z; return (Node (x', (y', z')))}
 
 \end{code}
+
 e apresente aqui os resultados das suas experiências com essa função.
 
 %----------------- Fim do anexo cpm soluções propostas -------------------------%
