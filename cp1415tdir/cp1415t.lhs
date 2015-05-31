@@ -690,8 +690,8 @@ main = getArgs >>= cond (not . null) exemp_or_exer errInvArgs
         execExemp = cond isPar execExempPar execExempSeq
         exer = cond (((==) 3) . length) execExer errInvArgs
         execExer = cond isPar execExerPar execExerSeq
-        execExempSeq = const (putStrLn . show . (map fib) $ [20..30])      
-        execExempPar = const (putStrLn . show . runEval . (parmap fib) $ [20..30])
+        execExempSeq = const (putStrLn . show . runEval . (parBTreeMap fib) $ t1)         
+        execExempPar = const (putStrLn . show . (fmap fib) $ t1)
 
 \end{code}
 
@@ -943,7 +943,13 @@ parBTreeMap f (Node (x, (y, z))) = do
 
 \end{code}
 
-e apresente aqui os resultados das suas experiências com essa função.
+Testes de performance:
+
+Versão sequencial - Total   time    0.94s  (0.73s elapsed)
+
+Versão paralela - Total   time    0.63s  (0.36s elapsed)
+
+Analisando o "time elapsed" de ambas as versões, podemos verificar que a paralela é cerca de 2.03x mais rápida que a sequancial.
 
 %----------------- Fim do anexo cpm soluções propostas -------------------------%
 

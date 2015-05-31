@@ -1279,10 +1279,10 @@ uma melhor distinção entre as duas versões.
 \>[9]{}\Varid{execExer}\mathrel{=}\mcond{\Varid{isPar}}{\Varid{execExerPar}}{\Varid{execExerSeq}}{}\<[E]%
 \\
 \>[6]{}\hsindent{3}{}\<[9]%
-\>[9]{}\Varid{execExempSeq}\mathrel{=}\underline{(\Varid{putStrLn}\comp \Varid{show}\comp (\Varid{map}\;\Varid{fib})\mathbin{\$}[\mskip1.5mu \mathrm{20}\mathinner{\ldotp\ldotp}\mathrm{30}\mskip1.5mu])}{}\<[E]%
+\>[9]{}\Varid{execExempSeq}\mathrel{=}\underline{(\Varid{putStrLn}\comp \Varid{show}\comp \Varid{runEval}\comp (\Varid{parBTreeMap}\;\Varid{fib})\mathbin{\$}\Varid{t1})}{}\<[E]%
 \\
 \>[6]{}\hsindent{3}{}\<[9]%
-\>[9]{}\Varid{execExempPar}\mathrel{=}\underline{(\Varid{putStrLn}\comp \Varid{show}\comp \Varid{runEval}\comp (\Varid{parmap}\;\Varid{fib})\mathbin{\$}[\mskip1.5mu \mathrm{20}\mathinner{\ldotp\ldotp}\mathrm{30}\mskip1.5mu])}{}\<[E]%
+\>[9]{}\Varid{execExempPar}\mathrel{=}\underline{(\Varid{putStrLn}\comp \Varid{show}\comp (\Varid{fmap}\;\Varid{fib})\mathbin{\$}\Varid{t1})}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1640,7 +1640,13 @@ A função \ensuremath{\Varid{parBTreeMap}} aplica a função \ensuremath{\Varid
 \ColumnHook
 \end{hscode}\resethooks
 
-e apresente aqui os resultados das suas experiências com essa função.
+Testes de performance:
+
+Versão sequencial - Total   time    0.94s  (0.73s elapsed)
+
+Versão paralela - Total   time    0.63s  (0.36s elapsed)
+
+Analisando o "time elapsed" de ambas as versões, podemos verificar que a paralela é cerca de 2.03x mais rápida que a sequancial.
 
 %----------------- Fim do anexo cpm soluções propostas -------------------------%
 

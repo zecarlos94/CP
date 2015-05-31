@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.10.8)  30 MAY 2015 16:49
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.10.8)  30 MAY 2015 18:52
 entering extended mode
  %&-line parsing enabled.
 **cp1415t
@@ -1025,10 +1025,10 @@ Overfull \hbox (7.82956pt too wide) in paragraph at lines 1519--1584
 
 ]) (./cp1415t.aux) ) 
 Here is how much of TeX's memory you used:
- 9010 strings out of 495061
- 120425 string characters out of 1182621
+ 9012 strings out of 495061
+ 120457 string characters out of 1182621
  251400 words of memory out of 3000000
- 11871 multiletter control sequences out of 15000+50000
+ 11873 multiletter control sequences out of 15000+50000
  36615 words of font info for 110 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  38i,8n,36p,852b,455s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1048,7 +1048,7 @@ sr/share/texmf-texlive/fonts/type1/urw/palatino/uplbi8a.pfb></usr/share/texmf-t
 exlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/fonts/type
 1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/up
 lri8a.pfb>
-Output written on cp1415t.pdf (16 pages, 582323 bytes).
+Output written on cp1415t.pdf (16 pages, 582453 bytes).
 PDF statistics:
  419 PDF objects out of 1000 (max. 8388607)
  81 named destinations out of 1000 (max. 500000)
